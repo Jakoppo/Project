@@ -32,10 +32,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Dane do logowania
-$valid_username = 'user123';
-$valid_password = 'password123';
-
 // Sprawdź, czy formularz został przesłany
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     // Pobierz dane z formularza
@@ -54,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
         echo "Nieprawidłowa nazwa użytkownika lub hasło.";
     }
 }
-
 elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login_db'])) {
     // Pobierz dane z formularza
     $username = $_POST['imie'];
@@ -67,7 +62,7 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login_db'])) {
     $password = mysqli_real_escape_string($conn, $password);
 
     // Zapytanie do bazy danych
-    $sql = "SELECT * FROM `5` WHERE imie='$username' AND haslo='$password'";
+    $sql = "SELECT * FROM users WHERE user='$username' AND haslo='$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
