@@ -41,28 +41,25 @@ if(isset($_POST['username'], $_POST['password'], $_POST['confirm_password'])) {
     if ($password !== $confirm_password) {
         die("Passwords do not match");
     }
-
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    $sql = "INSERT INTO users (username, password) 
-            VALUES (?, ?)";
+    // Dodanie kolumny `usertype` i przypisanie wartości `user`
+    $sql = "INSERT INTO users (username, password, usertype) 
+            VALUES (?, ?, 'user')";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $hashed_password);
+    $stmt->bind_param("ss", $username, $password);
 
     if ($stmt->execute()) {
         echo "<h2>Registration successful</h2>";
-        echo
-    } else {
+        header("location:rejestr.php");
+    } 
+    else {
         echo "Error during registration: " . $conn->error;
     }
 
     $stmt->close();
-} else {
-    echo "Form data not set";
-}
-
+} 
 $conn->close();
 ?>
+
 
 

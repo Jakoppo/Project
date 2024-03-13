@@ -8,23 +8,23 @@
 </head>
 <body>
   <div class="container">
-    <form class="login-form">
+    <form class="login-form" action="" method="post"> <!-- Poprawka: action="" method="post" -->
       <h2>Login</h2>
-      <input type="text" placeholder="Username" required>
-      <input type="password" placeholder="Password" required>
+      <input type="text" name="username" placeholder="Username" required> <!-- Poprawka: Dodano name="username" -->
+      <input type="password" name="password" placeholder="Password" required> <!-- Poprawka: Dodano name="password" -->
       <button type="submit">Login</button>
       <p>Don't have an account? <a href="pages/rejestr.php">Register here</a></p>
     </form>
   </div>
 </body>
 </html>
-
 <?php
 session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "baza";
+$dbname = "test3";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -32,50 +32,34 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Sprawdź, czy formularz został przesłany
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    // Pobierz dane z formularza
+if(isset($_POST['username'], $_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Sprawdź, czy dane są poprawne (hardcoded credentials)
-    if ($username === $valid_username && $password === $valid_password) {
-        // Dane są poprawne - ustaw zmienną sesji
-        $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $username;
-        header("Location: index.php"); // Przekieruj do strony powitalnej
-        exit;
-    } else {
-        // Dane są niepoprawne - wyświetl komunikat
-        echo "Nieprawidłowa nazwa użytkownika lub hasło.";
-    }
-}
-elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login_db'])) {
-    // Pobierz dane z formularza
-    $username = $_POST['imie'];
-    $password = $_POST['haslo'];
-
-    // Zabezpiecz dane
-    $username = stripslashes($username);
-    $password = stripslashes($password);
-    $username = mysqli_real_escape_string($conn, $username);
-    $password = mysqli_real_escape_string($conn, $password);
-
-    // Zapytanie do bazy danych
-    $sql = "SELECT * FROM users WHERE user='$username' AND haslo='$password'";
-    $result = $conn->query($sql);
+    // Sprawdzenie czy użytkownik istnieje w bazie danych
+    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
-        // Użytkownik istnieje w bazie danych - zaloguj go
-        $_SESSION['logged_in'] = true;
-        $_SESSION['username'] = $username;
-        header("Location: welcome.php"); // Przekieruj do strony powitalnej
-        exit;
-    } else {
-        // Użytkownik nie istnieje lub błędne hasło - wyświetl komunikat
-        echo "Nieprawidłowa nazwa użytkownika lub hasło.";
-    }
-}
+        $row = $result->fetch_assoc();
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['usertype'] = $row['usertype'];
 
+        // Przekierowanie na odpowiednią stronę w zależności od typu użytkownika
+        if($_SESSION['usertype'] == 'admin') {
+            header("Location: admin_panel.php");
+        } else {
+            header("Location: pages/user_panel.php");
+        }
+        exit();
+    } else {
+        echo "Invalid username or password";
+    }
+
+    $stmt->close();
+}
 $conn->close();
 ?>
