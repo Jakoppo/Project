@@ -7,6 +7,11 @@
     <title>Medical Shop</title>
 </head>
 <body>
+<header class="header">
+      <div class="container">
+        <div class="branding">
+          <a href="main.php">Dr.Hous CoffeeShop</a>
+        </div>
     <nav>
         <ul>
             <li><a href="">Drugs</a></li>
