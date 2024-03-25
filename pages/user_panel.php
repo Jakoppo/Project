@@ -10,15 +10,18 @@
 <header class="header">
       <div class="container">
         <div class="branding">
-          <a href="main.php">Dr.Hous CoffeeShop</a>
+          <a href="user_panel.php">Dr.Hous CoffeeShop</a>
         </div>
+        </div>
+        </header>
     <nav>
-        <ul>
+        <ul >
             <li><a href="">Drugs</a></li>
             <li><a href="">Supplies</a></li>
             <li><a href="">Books</a></li>
             <li><a href="">Medical Clinics we advise</a></li>
         </ul>
+        
     </nav>
 
     <main>
@@ -27,24 +30,30 @@
                 <h1>Pictures of best sellers</h1>
             </section>
         
+
+        <section>
+            <a href="">produkt1</a>
+        </section>
+         
+        <section>
+        <a href="">produkt2</a>
+        </section>
+
+        <section>
+        <a href="">produkt3</a>
+        </section>
+
+        <section>
+        <a href="">produkt4</a>
+        </section>
+
+
+
+
+
 </main> 
     </body>
- <!-- Kontener reklam -->
- <div class="ads-container">
-            <!-- Lewa reklama -->
-            <div class="ad">
-                aaaaa
-                
-            </div>
-
-            <!-- Prawa reklama -->
-            <div class="ad">
-                aaaaa
-                
-            </div>
-        </div>
-
-   
+ 
 
 
     <footer>@</footer>

@@ -8,7 +8,14 @@
     scroll-behavior: smooth;
     height: 100%;
   }
+  a {
+    text-decoration: none;
+  }
   
+  h1{
+    color: #006400;
+  }
+
   body {
     font-family: "Open Sans", sans-serif;
     background-color: gray;
@@ -25,10 +32,12 @@
   
   /* Header styles */
   header {
-    background-color: #006400; /* Dark green */
-    color: #fff; /* White */
-    padding: 20px;
-    text-align: center;
+  display: block;
+  overflow: hidden;
+  height: 60;
+  margin-bottom: 20px;
+  background-color: #006400;
+  flex-shrink: 0;
   }
 
    
@@ -51,8 +60,9 @@
   nav ul li a {
     color: #006400; /* Dark green */
     text-decoration: none;
-    font-weight: bold;
+    font-weight:bolder;
     margin-right: auto; /* Add margin to create a gap between links */
+    font-size: larger;
   }
   
   /* Main content styles */
@@ -82,6 +92,25 @@
   border: 1px solid #ccc;
   padding: 10px;
 }
+
+
+
+.branding {
+  width: auto;
+  height: 100%;
+  float: left;
+}
+
+.branding a {
+  height: 80px;
+  line-height: 80px;
+  color: white;
+  font-weight: bold;
+  font-size: larger;
+}
+
+
+
 
 
   /* Footer styles */
