@@ -21,7 +21,9 @@
             <li><a href="">Books</a></li>
             <li><a href="">Medical Clinics we advise</a></li>
         </ul>
-        
+        <ul class="shopcart">
+            <li><a href="">Shop cart</a></li>
+        </ul>
     </nav>
 
     <main>
