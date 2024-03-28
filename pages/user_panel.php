@@ -1,3 +1,20 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "test3";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,9 +37,10 @@
             <li><a href="">Supplies</a></li>
             <li><a href="">Books</a></li>
             <li><a href="">Medical Clinics we advise</a></li>
+            <li><a href="logout.php">Logout</a></li>
         </ul>
         <ul class="shopcart">
-            <li><a href="">Shop cart</a></li>
+            <li><a href="shopcart.php">Shop cart</a></li>
         </ul>
     </nav>
 
@@ -34,7 +52,29 @@
         
 
         <section>
-            <a href="">produkt1</a>
+            <?php
+                $select_produkt = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
+                if(mysqli_num_rows($select_produkt) > 0){
+                    while($fetch_product = mysqli_fetch_assoc($select_produkt)){
+
+            ?>
+            <form method="post"  action=""> 
+            <img src="/project/img/<?php echo $fetch_product['image']; ?>" alt="">
+                <div class="name"><?php echo $fetch_product['name']; ?></div>
+                <div class="price"><?php echo $fetch_product['price']; ?></div>
+                <input type="number" min="1" name="product_quantity" value="1">
+                <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
+                <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
+                <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
+                <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+            </form>
+
+
+             <?php
+                   };
+                };
+             ?>           
+
         </section>
          
         <section>
