@@ -9,6 +9,31 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username'")
+or die('query failed');
+if(mysqli_num_rows($select_users) > 0){
+    $fetch_users = mysqli_fetch_assoc($select_users);
+}
+
+
+session_start();
+
+if(isset($_POST['username'])) {
+    $_SESSION['username'] = $_POST['username'];
+}
+
+if(isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username'")
+    or die('query failed');
+
+    if(mysqli_num_rows($select_users) > 0){
+        $fetch_users = mysqli_fetch_assoc($select_users);
+    }
+} else {
+    header("location:http://localhost/project/log.php");
+}
 
 ?>
 
@@ -42,27 +67,29 @@ if ($conn->connect_error) {
         <ul class="shopcart">
             <li><a href="shopcart.php">Shop cart</a></li>
         </ul>
+        <ul class="user">
+        <li><p>username: <span><?php echo $fetch_users['username'];?></span></p></li>
+        </ul>
     </nav>
 
     <main>
-        <div class="container">   
-            <section>
-                <h1>Pictures of best sellers</h1>
+    <section>
+                <h1>Best Sellers</h1>
             </section>
-        
-
-        <section>
+        <div class="container">   
+            <div class="products">
+                <div class="box-container">
             <?php
                 $select_produkt = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
                 if(mysqli_num_rows($select_produkt) > 0){
                     while($fetch_product = mysqli_fetch_assoc($select_produkt)){
 
             ?>
-            <form method="post"  action=""> 
+            <form method="post"  action="" class="box"> 
             <img src="/project/img/<?php echo $fetch_product['image']; ?>" alt="">
                 <div class="name"><?php echo $fetch_product['name']; ?></div>
                 <div class="price"><?php echo $fetch_product['price']; ?></div>
-                <input type="number" min="1" name="product_quantity" value="1">
+                <input type="number" min="1" name="product_quantity" value="">
                 <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
                 <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                 <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
@@ -74,20 +101,9 @@ if ($conn->connect_error) {
                    };
                 };
              ?>           
-
-        </section>
-         
-        <section>
-        <a href="">produkt2</a>
-        </section>
-
-        <section>
-        <a href="">produkt3</a>
-        </section>
-
-        <section>
-        <a href="">produkt4</a>
-        </section>
+            </div>
+            </div>
+            </div>
 
 
 
@@ -97,20 +113,8 @@ if ($conn->connect_error) {
     </body>
  
 
-
+    <br>
+    <br>
+    <br>
     <footer>@</footer>
 </html>
-
-<?php
-session_start();
-
-if(isset($_POST['username'])) {
-    $_SESSION['username'] = $_POST['username'];
-
-}
-if(isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
-} else {
-    header("location:http://localhost/project/log.php");
-}
-?>

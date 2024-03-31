@@ -98,21 +98,6 @@ section {
   background-color: rgba(205, 205, 205, 0.6);
   margin: 8px 0;
 }
-/* Style dla kontenera reklam */
-.ads-container {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
-}
-
-/* Style dla reklamy */
-.ad {
-  width: 200px;
-  height: 400px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
 
 .branding {
   width: auto;
@@ -128,18 +113,54 @@ section {
   font-size: larger;
 }
 
-/* Footer styles */
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #006400; /* Dark green */
-  color: #fff; /* White */
-  padding: 20px;
+  background-color: #006400;
+  color: #fff;
+  padding: 10px;
   text-align: center;
 }
 
-section form img {
-  height: 250px; /* Adjust the height as needed */
-  width: auto; /* Maintain aspect ratio */
+.container .products .box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+.container .products .box-container .box {
+  text-align: center;
+  border-radius: 5px;
+  position: relative;
+  padding: 20px;
+  width: 400px;
+  background-color: #006400;
+  color: #ccc;
+}
+.container .products .box-container .box img {
+  height: 250px;
+  width: 350px;
+}
+.user {
+  color: #006400;
+  text-decoration: none;
+  font-weight: bolder;
+  margin-right: auto;
+  font-size: larger;
+  display: inline-block;
+}
+
+.btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.btn:hover {
+  background-color: #45a049;
 }

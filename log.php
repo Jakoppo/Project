@@ -50,7 +50,7 @@ if(isset($_POST['username'], $_POST['password'])) {
 
         // Przekierowanie na odpowiednią stronę w zależności od typu użytkownika
         if($_SESSION['usertype'] == 'admin') {
-            header("Location: admin_panel.php");
+            header("Location: pages/admin_panel.php");
         } else {
             header("Location: pages/user_panel.php");
         }
