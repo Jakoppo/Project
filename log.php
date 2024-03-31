@@ -47,6 +47,7 @@ if(isset($_POST['username'], $_POST['password'])) {
         $row = $result->fetch_assoc();
         $_SESSION['username'] = $row['username'];
         $_SESSION['usertype'] = $row['usertype'];
+        $_SESSION['user_id'] = $row['user_id']; 
 
         // Przekierowanie na odpowiednią stronę w zależności od typu użytkownika
         if($_SESSION['usertype'] == 'admin') {

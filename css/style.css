@@ -164,3 +164,51 @@ footer {
 .btn:hover {
   background-color: #45a049;
 }
+
+.container .products .box-container .box input[type="number"] {
+  margin: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 12px 14px;
+}
+.container .shopping-cart {
+  padding: 20px 0;
+}
+.container .shopping-cart table {
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+}
+.container .shopping-cart table .table-bottom {
+  background-color: var(--light-bg);
+}
+
+.container .shopping-cart table tr td {
+  padding: 10px;
+  font-size: 20px;
+  color: var(--black);
+}
+
+.container .shopping-cart table tr td:nth-child(1) {
+  padding: 0;
+}
+
+.container .shopping-cart table tr td input[type="number"] {
+  width: 80px;
+  border: var(--border);
+  padding: 12px 14px;
+  font-size: 20px;
+  color: var(--black);
+}
+
+.container .shopping-cart .cart-btn {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.container .shopping-cart .disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  user-select: none;
+}

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -9,36 +11,39 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username'")
-or die('query failed');
-if(mysqli_num_rows($select_users) > 0){
-    $fetch_users = mysqli_fetch_assoc($select_users);
-}
 
-
-session_start();
-
-if(isset($_POST['username'])) {
-    $_SESSION['username'] = $_POST['username'];
-}
-
+// Sprawdź, czy użytkownik jest zalogowany
 if(isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
-
-    $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username'")
-    or die('query failed');
-
+    $user_id = $_SESSION['user_id'];
+    // Pobierz informacje o użytkowniku z bazy danych
+    $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username' AND user_id='$user_id'") or die('query failed');
     if(mysqli_num_rows($select_users) > 0){
         $fetch_users = mysqli_fetch_assoc($select_users);
+    } else {
+        // Jeśli nie znaleziono użytkownika, przekieruj na stronę logowania
+        header("location: http://localhost/project/log.php");
+        exit(); // Upewnij się, że po przekierowaniu nie ma dalszego wykonywania kodu
     }
-} else {
-    header("location:http://localhost/project/log.php");
 }
+if(isset($_POST['add_to_cart'])){
 
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    $product_image = $_POST['product_image'];
+    $product_quantity = $_POST['product_quantity'];
+ 
+    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
+ 
+    if(mysqli_num_rows($select_cart) > 0){
+       $message[] = 'product already added to cart!';
+    }else{
+       mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, image, quantity) VALUES('$user_id', '$product_name', '$product_price', '$product_image', '$product_quantity')") or die('query failed');
+       $message[] = 'product added to cart!';
+    }
+ 
+ };
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,71 +55,63 @@ if(isset($_SESSION['username'])) {
 </head>
 <body>
 <header class="header">
-      <div class="container">
+    <div class="container">
         <div class="branding">
-          <a href="user_panel.php">Dr.Hous CoffeeShop</a>
+            <a href="user_panel.php">Dr.Hous CoffeeShop</a>
         </div>
-        </div>
-        </header>
-    <nav>
-        <ul >
-            <li><a href="">Drugs</a></li>
-            <li><a href="">Supplies</a></li>
-            <li><a href="">Books</a></li>
-            <li><a href="">Medical Clinics we advise</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-        <ul class="shopcart">
+    </div>
+</header>
+<nav>
+    <ul>
+        <li><a href="">Drugs</a></li>
+        <li><a href="">Supplies</a></li>
+        <li><a href="">Books</a></li>
+        <li><a href="">Medical Clinics we advise</a></li>
+        <li><a href="logout.php">Logout</a></li>
+    </ul>
+    <ul class="shopcart">
             <li><a href="shopcart.php">Shop cart</a></li>
         </ul>
-        <ul class="user">
-        <li><p>username: <span><?php echo $fetch_users['username'];?></span></p></li>
-        </ul>
-    </nav>
+    <ul class="user">
+        <li><p>username: <span><?php echo $fetch_users['username']; ?></span></p></li>
+    </ul>
+</nav>
 
-    <main>
+<main>
     <section>
-                <h1>Best Sellers</h1>
-            </section>
-        <div class="container">   
-            <div class="products">
-                <div class="box-container">
-            <?php
-                $select_produkt = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-                if(mysqli_num_rows($select_produkt) > 0){
-                    while($fetch_product = mysqli_fetch_assoc($select_produkt)){
+        <h1>Best Sellers</h1>
+    </section>
+    <div class="container">
+        <div class="products">
+            <div class="box-container">
+                <?php
+                $select_product = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
+                if(mysqli_num_rows($select_product) > 0){
+                    while($fetch_product = mysqli_fetch_assoc($select_product)){
 
-            ?>
-            <form method="post"  action="" class="box"> 
-            <img src="/project/img/<?php echo $fetch_product['image']; ?>" alt="">
-                <div class="name"><?php echo $fetch_product['name']; ?></div>
-                <div class="price"><?php echo $fetch_product['price']; ?></div>
-                <input type="number" min="1" name="product_quantity" value="">
-                <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
-                <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
-                <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
-                <input type="submit" value="add to cart" name="add_to_cart" class="btn">
-            </form>
-
-
-             <?php
-                   };
+                        ?>
+                        <form method="post" action="" class="box">
+                            <img src="/project/img/<?php echo $fetch_product['image']; ?>" alt="">
+                            <div class="name"><?php echo $fetch_product['name']; ?></div>
+                            <div class="price"><?php echo $fetch_product['price']; ?></div>
+                            <input type="number" min="1" name="product_quantity" value="1">
+                            <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
+                            <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
+                            <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                            <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+                        </form>
+                        <?php
+                    };
                 };
-             ?>           
+                ?>
             </div>
-            </div>
-            </div>
-
-
-
-
-
-</main> 
-    </body>
- 
-
-    <br>
-    <br>
-    <br>
-    <footer>@</footer>
+        </div>
+    </div>
+</main>
+<br>
+<br>
+<br>
+<footer>@</footer>
+</body>
 </html>
