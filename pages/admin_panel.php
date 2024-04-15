@@ -23,7 +23,7 @@ if(isset($_SESSION['username'])) {
     }
 } else {
     header("location:http://localhost/project/log.php");
-    exit(); // Dodajemy exit(), aby zapobiec dalszemu wykonywaniu kodu
+    exit(); 
 }
 
 ?>
@@ -72,7 +72,6 @@ if(isset($_SESSION['username'])) {
             if(isset($_POST['id_product'])) {
                 $id_product = $_POST['id_product'];
                 $status = $_POST['status'];
-
                 // Aktualizacja statusu zamówienia w bazie danych
                 $update_query = "UPDATE `cart` SET status='$status' WHERE id_product=$id_product";
                 if ($conn->query($update_query) === TRUE) {
@@ -83,19 +82,19 @@ if(isset($_SESSION['username'])) {
             }
         }
         ?>
-        <table border="1">
+        <table border="3">
             <tr>
                 <th>id_user</th>
                 <th>Number of order</th>
                 <th>Produkt</th>
                 <th>quantity</th>
                 <th>Status</th>
+                <th>Nazwa Użytkownika</th>
                 <th>Akcja</th>
             </tr>
             <?php
             $orders_query = "SELECT * FROM cart";
             $result = $conn->query($orders_query);
-
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
@@ -104,6 +103,7 @@ if(isset($_SESSION['username'])) {
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $row["quantity"] . "</td>";
                     echo "<td>" . $row["status"] . "</td>";
+                    echo "<td>" . $row["client_name"] . "</td>";
                     echo "<td>";
                     echo "<form method='post' action=''>";
                     echo "<input type='hidden' name='id_product' value='" . $row["id_product"] . "'>";
