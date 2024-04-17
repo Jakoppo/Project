@@ -46,7 +46,7 @@ if(isset($_SESSION['username'])) {
 </header>
 <nav>
     <ul>
-        <li><a href="logout.php">Logout</a></li>
+        <li><a href="logout.php">Wyloguj</a></li>
     </ul>
     <ul class="user">
         <li><p>username: <span><?php echo $fetch_users['username'];?></span></p></li>
@@ -85,9 +85,9 @@ if(isset($_SESSION['username'])) {
         <table border="3">
             <tr>
                 <th>id_user</th>
-                <th>Number of order</th>
+                <th>Numer zamówienia</th>
                 <th>Produkt</th>
-                <th>quantity</th>
+                <th>Ilość</th>
                 <th>Status</th>
                 <th>Nazwa Użytkownika</th>
                 <th>Akcja</th>
@@ -108,9 +108,9 @@ if(isset($_SESSION['username'])) {
                     echo "<form method='post' action=''>";
                     echo "<input type='hidden' name='id_product' value='" . $row["id_product"] . "'>";
                     echo "<select name='status'>";
-                    echo "<option value='accepted'>accepted</option>";
-                    echo "<option value='I need a fee'>I need a fee</option>";
-                    echo "<option value='rejected'>rejected</option>";
+                    echo "<option value='zaakceptowano'>zaakceptowano</option>";
+                    echo "<option value='Do opłaty'>Do opłaty</option>";
+                    echo "<option value='odmowa'>odmowa</option>";
                     echo "</select>";
                     echo "<input type='submit' value='Zaktualizuj'>";
                     echo "</form>";

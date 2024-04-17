@@ -36,10 +36,10 @@ if(isset($_POST['add_to_cart'])){
     $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id' AND client_name='$username'") or die('query failed');
  
     if(mysqli_num_rows($select_cart) > 0){
-       $message[] = 'product already added to cart!';
+       $message[] = 'produkt już dodany!';
     }else{
        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, image, quantity, client_name) VALUES('$user_id', '$product_name', '$product_price', '$product_image', '$product_quantity' , '$username' )") or die('query failed');
-       $message[] = 'product added to cart!';
+       $message[] = 'produkt dodany!';
     }
  
  };
@@ -63,23 +63,23 @@ if(isset($_POST['add_to_cart'])){
 </header>
 <nav>
     <ul>
-        <li><a href="">Drugs</a></li>
-        <li><a href="">Supplies</a></li>
-        <li><a href="">Books</a></li>
-        <li><a href="">Medical Clinics we advise</a></li>
-        <li><a href="logout.php">Logout</a></li>
+        <li><a href="">Leki</a></li>
+        <li><a href="">Produkty Medyczne</a></li>
+        <li><a href="">Ksiązki</a></li>
+        <li><a href="">Kliniki które polecamy</a></li>
+        <li><a href="logout.php">Wyloguj</a></li>
     </ul>
     <ul class="shopcart">
-            <li><a href="shopcart.php">Shop cart</a></li>
+            <li><a href="shopcart.php">koszyk z zakupami</a></li>
         </ul>
     <ul class="user">
-        <li><p>username: <span><?php echo $fetch_users['username']; ?></span></p></li>
+        <li><p>użytkownik: <span><?php echo $fetch_users['username']; ?></span></p></li>
     </ul>
 </nav>
 
 <main>
     <section>
-        <h1>Best Sellers</h1>
+        <h1>Najlepsze Produkty</h1>
     </section>
     <div class="container">
         <div class="products">
@@ -99,7 +99,7 @@ if(isset($_POST['add_to_cart'])){
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
                             <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-                            <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+                            <input type="submit" value="dodaj do koszyka" name="add_to_cart" class="btn">
                         </form>
                         <?php
                     };

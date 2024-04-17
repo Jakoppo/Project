@@ -64,14 +64,14 @@ if(isset($_GET['remove'])){
         </header>
     <nav>
         <ul >
-            <li><a href="">Drugs</a></li>
-            <li><a href="">Supplies</a></li>
-            <li><a href="">Books</a></li>
-            <li><a href="">Medical Clinics we advise</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="">Leki</a></li>
+            <li><a href="">Produkty Medyczne</a></li>
+            <li><a href="">Ksiązki</a></li>
+            <li><a href="">Kliniki które polecamy</a></li>
+            <li><a href="logout.php">Wyloguj</a></li>
         </ul>
         <ul class="user">
-        <li><p>username: <span><?php echo $fetch_users['username'];?></span></p></li>
+        <li><p>użytkownik: <span><?php echo $fetch_users['username'];?></span></p></li>
         </ul>
     </nav>
 
@@ -80,17 +80,17 @@ if(isset($_GET['remove'])){
             <section>
             <div class="shopping-cart">
 
-<h1 class="heading">shopping cart</h1>
+<h1 class="heading">koszyk z zakupami</h1>
 
 <table>
    <thead>
       <th>status</th>
-      <th>image</th>
-      <th>name</th>
-      <th>price</th>
-      <th>quantity</th>
-      <th>total price</th>
-      <th>action</th>
+      <th>Zdjecie</th>
+      <th>Nazwa</th>
+      <th>Cena</th>
+      <th>Ilość</th>
+      <th>Cena całkowita</th>
+      <th>edycja</th>
    </thead>
    <tbody>
    <?php
@@ -112,25 +112,25 @@ if(isset($_GET['remove'])){
             </form>
          </td>
          <td>$<?php echo $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?>/-</td>
-         <td><a href="shopcart.php?remove=<?php echo $fetch_cart['id_product']; ?>" class="delete-btn" onclick="return confirm('remove item from cart?');">remove</a></td>
+         <td><a href="shopcart.php?remove=<?php echo $fetch_cart['id_product']; ?>" class="delete-btn" onclick="return confirm('czy napewno?');">usuń</a></td>
       </tr>
    <?php
       $grand_total += $sub_total;
          }
       }else{
-         echo '<tr><td style="padding:20px; text-transform:capitalize;" colspan="6">no item added</td></tr>';
+         echo '<tr><td style="padding:20px; text-transform:capitalize;" colspan="6">brak produktów</td></tr>';
       }
    ?>
    <tr class="table-bottom">
-      <td colspan="4">grand total :</td>
+      <td colspan="4">pełna cena :</td>
       <td>$<?php echo $grand_total; ?>/-</td>
-      <td><a href="shopcart.php?delete_all" onclick="return confirm('delete all from cart?');" class="delete-btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">delete all</a></td>
+      <td><a href="shopcart.php?delete_all" onclick="return confirm('delete all from cart?');" class="delete-btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">usuń wszystko</a></td>
    </tr>
 </tbody>
 </table>
 
 <div class="cart-btn">  
-   <a href="#" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>
+   <a href="#" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">przejdz do płatności</a>
 </div>
             </section>
         

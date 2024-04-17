@@ -8,12 +8,12 @@
 </head>
 <body>
   <div class="container">
-    <form class="login-form" action="" method="post"> <!-- Poprawka: action="" method="post" -->
-      <h2>Login</h2>
-      <input type="text" name="username" placeholder="Username" required> <!-- Poprawka: Dodano name="username" -->
-      <input type="password" name="password" placeholder="Password" required> <!-- Poprawka: Dodano name="password" -->
-      <button type="submit">Login</button>
-      <p>Don't have an account? <a href="pages/rejestr.php">Register here</a></p>
+    <form class="login-form" action="" method="post"> 
+      <h2>Logowanie</h2>
+      <input type="text" name="username" placeholder="Nazwa" required> 
+      <input type="password" name="password" placeholder="Hasło" required>
+      <button type="submit">Zaloguj</button>
+      <p>Nie masz konta? <a href="pages/rejestr.php">Rejestracja</a></p>
     </form>
   </div>
 </body>
@@ -36,7 +36,7 @@ if(isset($_POST['username'], $_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Sprawdzenie czy użytkownik istnieje w bazie danych
+    
     $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $password);
@@ -49,7 +49,7 @@ if(isset($_POST['username'], $_POST['password'])) {
         $_SESSION['usertype'] = $row['usertype'];
         $_SESSION['user_id'] = $row['user_id']; 
 
-        // Przekierowanie na odpowiednią stronę w zależności od typu użytkownika
+       
         if($_SESSION['usertype'] == 'admin') {
             header("Location: pages/admin_panel.php");
         } else {

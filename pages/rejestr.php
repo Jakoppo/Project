@@ -9,12 +9,12 @@
 <body>
   <div class="container">
   <form class="register-form" action="rejestr.php" method="post">
-  <h2>Register</h2>
-  <input type="text" name="username" placeholder="Username" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-  <button type="submit">Register</button>
-  <p>Already have an account? <a href="../log.php">Login here</a></p>
+  <h2>Rejestracja</h2>
+  <input type="text" name="username" placeholder="Nazwa" required>
+  <input type="password" name="password" placeholder="Hasło" required>
+  <input type="password" name="confirm_password" placeholder="Potwierdz hasło" required>
+  <button type="submit">Rejestruj</button>
+  <p>Masz już konto? <a href="../log.php">Logowanie</a></p>
 </form>
   </div>
 </body>
