@@ -12,37 +12,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Sprawdź, czy użytkownik jest zalogowany
 if(isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     $user_id = $_SESSION['user_id'];
-    // Pobierz informacje o użytkowniku z bazy danych
     $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE username='$username' AND user_id='$user_id'") or die('query failed');
     if(mysqli_num_rows($select_users) > 0){
         $fetch_users = mysqli_fetch_assoc($select_users);
     } else {
-        // Jeśli nie znaleziono użytkownika, przekieruj na stronę logowania
         header("location: http://localhost/project/log.php");
-        exit(); // Upewnij się, że po przekierowaniu nie ma dalszego wykonywania kodu
+        exit();
     }
 }
-if(isset($_POST['add_to_cart'])){
 
-    $username = $_SESSION['username'];
-    $product_name = $_POST['product_name'];
-    $product_price = $_POST['product_price'];
-    $product_image = $_POST['product_image'];
-    $product_quantity = $_POST['product_quantity'];
-    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id' AND client_name='$username'") or die('query failed');
- 
-    if(mysqli_num_rows($select_cart) > 0){
-       $message[] = 'produkt już dodany!';
-    }else{
-       mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, image, quantity, client_name) VALUES('$user_id', '$product_name', '$product_price', '$product_image', '$product_quantity' , '$username' )") or die('query failed');
-       $message[] = 'produkt dodany!';
-    }
- 
- };
 ?>
 
 <!DOCTYPE html>
@@ -82,32 +63,72 @@ if(isset($_POST['add_to_cart'])){
         <h1>Najlepsze Produkty</h1>
     </section>
     <div class="container">
-        <div class="products">
-            <div class="box-container">
-                <?php
-                $select_product = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-                if(mysqli_num_rows($select_product) > 0){
-                    while($fetch_product = mysqli_fetch_assoc($select_product)){
-
-                        ?>
-                        <form method="post" action="" class="box">
-                            <img src="/project/img/<?php echo $fetch_product['image']; ?>" alt="">
-                            <div class="name"><?php echo $fetch_product['name']; ?></div>
-                            <div class="price"><?php echo $fetch_product['price']; ?></div>
-                            <input type="number" min="1" name="product_quantity" value="1">
-                            <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
-                            <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
-                            <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-                            <input type="submit" value="dodaj do koszyka" name="add_to_cart" class="btn">
-                        </form>
-                        <?php
-                    };
-                };
-                ?>
-            </div>
+            <section >
+            <form action="submit.php"  method="post">
+            <div class="products">
+            <label for="product_name">Name: Vicodin</label><br>
+        <input type="hidden"  name="nazwa" value="Vicodin"><br>
+        <img src="/project/img/vicodin.jpg" alt="">
+        <br>
+        <label for="price">Cena: 40$</label><br>
+        <input type="hidden"  name="cena" value="40$"><br>
+        <label for="quantity">Ilość:</label><br>
+        <input type="number" name="ilosc" min="1"><br>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <input type="submit" value="Dodaj do koszyka">
         </div>
-    </div>
+        </form>
+
+        <form action="submit.php"  method="post">
+       <div class="products">
+        <label for="product_name">Name: Epinefrin</label><br>
+        <input type="hidden"  name="nazwa" value="Epinefrin"><br>
+        <br>
+        <img src="/project/img/epinefrin.jpg" alt="">
+        <br>
+        <label for="price">Cena: 25$</label><br>
+        <input type="hidden"  name="cena" value="25$"><br>
+        <label for="quantity">Ilość:</label><br>
+        <input type="number" name="ilosc" min="1"><br>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <input type="submit" value="Dodaj do koszyka">
+        </div>
+        </form>
+
+        <form action="submit.php"  method="post">
+        <div class="products">
+            <label for="product_name">Name: Morfin</label><br>
+        <input type="hidden"  name="nazwa" value="Morfin"><br>
+        <br>
+        <img src="/project/img/morfin.jpg" alt="">
+        <br>
+        <label for="price">Cena: 50$</label><br>
+        <input type="hidden"  name="cena" value="50$"><br>
+        <label for="quantity">Ilość:</label><br>
+        <input type="number" name="ilosc" min="1"><br>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <input type="submit" value="Dodaj do koszyka">
+        </div>
+        </form>
+        
+        <form action="submit.php"  method="post">
+        <div class="products">
+        <label for="product_name">Name: Aspirin</label><br>
+        <input type="hidden"  name="nazwa" value="Aspirin"><br>
+        <br>
+        <img src="/project/img/aspirin.jpg" alt="">
+        <br>
+        <label for="price">Cena: 15$</label><br>
+        <input type="hidden"  name="cena" value="15$"><br>
+        <label for="quantity">Ilość:</label><br>
+        <input type="number" name="ilosc" min="1"><br>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <input type="submit" value="Dodaj do koszyka">
+        </div>
+</form>
+        </section>
+        </div>
+    
 </main>
 <br>
 <br>
