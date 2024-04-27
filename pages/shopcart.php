@@ -73,8 +73,79 @@ if(isset($_SESSION['username'])) {
       <th>edycja</th>
    </thead>
    <tbody>
+   <?php
+
+// Połączenie z bazą danych - załóżmy, że mamy już połączenie
+$conn = new mysqli("localhost", "root", "", "test3");
+
+// Sprawdzenie połączenia
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Funkcja usuwania produktu z koszyka
+function deleteProduct($conn, $productId) {
+    $sql = "DELETE FROM cart WHERE id = $productId";
+    if ($conn->query($sql) === TRUE) {
+        echo "Produkt został usunięty z koszyka.";
+    } else {
+        echo "Błąd podczas usuwania produktu: " . $conn->error;
+    }
+}
+
+// Sortowanie - można zaimplementować sortowanie według różnych kolumn
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'id'; // Domyślne sortowanie według ID
+
+// Sprawdzenie, czy użytkownik jest zalogowany
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    
+    // Zapytanie SQL, aby wyświetlić tylko produkty użytkownika zalogowanego
+    $sql = "SELECT * FROM cart WHERE user_id = $userId ORDER BY $sort";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "<table border='1'>
+                <tr>
+                    <th><a href='?sort=id'>ID</a></th>
+                    <th><a href='?sort=name'>Nazwa Produktu</a></th>
+                    <th><a href='?sort=price'>Cena</a></th>
+                    <th><a href='?sort=quantity'>Ilość</a></th>
+                    <th><a href='?sort=user_id'>ID Użytkownika</a></th>
+                    <th>Akcja</th>
+                </tr>";
+        // Wyświetlanie danych
+        while($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>".$row["id"]."</td>
+                    <td>".$row["name"]."</td>
+                    <td>".$row["price"]."</td>
+                    <td>".$row["quantity"]."</td>
+                    <td>".$row["user_id"]."</td>
+                    <td><a href='?delete=".$row["id"]."'>Usuń</a></td>
+                </tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "Brak produktów w koszyku.";
+    }
+
+    // Obsługa usuwania produktu
+    if(isset($_GET['delete'])) {
+        $productId = $_GET['delete'];
+        deleteProduct($conn, $productId);
+    }
+} else {
+    echo "Prosimy zalogować się, aby zobaczyć swoje produkty.";
+}
+
+$conn->close();
+?>
+
+    
    
-   </tr>
+   
+   
 </tbody>
 </table>
 </section>
